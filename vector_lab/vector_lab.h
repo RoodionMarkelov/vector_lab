@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 
@@ -41,7 +42,7 @@ public:
 		}
 	}
 
-	T& operator[](const int index) const{
+	T& operator[](const int index) const {
 		/*if (index < 0 || _size <= index) {
 			throw out_of_range("[Vector::operator[]] Index is out of range.");
 		}*/
@@ -118,4 +119,86 @@ public:
 		return temp;
 	}
 
+	template<typename T>
+	T operator*(const Vector<T>& rhs) {
+		/*if (lhs.get_size() != rhs.get_size()) {
+			throw runtime_error("[Vector::operator+] Different size.");
+		}*/
+		T value = 0;
+
+		for (int i = 0; i < rhs.get_size(); ++i) {
+			value += _data[i] * rhs._data[i];
+		}
+		return value;
+	}
+
+	template<typename T>
+	Vector<T> operator*(const T value) {
+		Vector<T> temp(*this);
+		for (int i = 0; i < temp.get_size(); ++i) {
+			temp._data[i] = value * _data[i];
+		}
+		return temp;
+	}
+
+	template<typename T>
+	Vector<T> operator/(const T value) {
+		Vector<T> temp(*this);
+		for (int i = 0; i < temp.get_size(); ++i) {
+			temp._data[i] = _data[i] / value;
+		}
+		return temp;
+	}
+	template<typename T>
+	bool operator==(const Vector<T>& rhs) {
+		if (get_size() == rhs.get_size()) {
+			for (int i = 0; i < get_size(); ++i) {
+				double val = (_data[i] - rhs._data[i]);
+				if (std::abs(val) > EPSILON) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	template<typename T>
+	bool operator!=(const Vector<T>& rhs) {
+		return !(*this == rhs);
+	}
+
+	T& get_element(const int index) {
+		return _data[index];
+	}
 };
+
+template<typename T>
+Vector<T> operator*(const T value, const Vector<T>& lhs) {
+	Vector<T> temp(lhs);
+	return temp * value;
+}
+
+template<typename T>
+	Vector<double> find_norm(const Vector<T> other) {
+		if (other.get_size() < 2) {
+			Vector<double> temp(1);
+			return temp;
+		}
+		Vector<T> temp(other);
+		Vector<double> norm(other.get_size());
+		norm.get_element(0) = double((-1) * temp.get_element(1));
+		norm.get_element(1) = 1.0;
+		for (int i = 2; i < norm.get_size(); ++i) {
+			norm.get_element(i) = 0.0;
+		}
+
+		for (int i = 0; i < norm.get_size(); ++i) {
+			norm.get_element(i) = norm.get_element(i) / norm.abs();
+		}
+		return norm;
+	}
+
+
+
+
