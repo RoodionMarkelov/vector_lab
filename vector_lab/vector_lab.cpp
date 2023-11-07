@@ -8,14 +8,14 @@ int main()
 	//Vector<float> b(2);
 	//Vector<float> c(b);
 
-	//Vector<int> vec1007(5, 1, 100);
-	//std::cout << vec1007 << endl;
+	//Vector<int> vecran1(5, 1, 100);
+	//std::cout << vecran1 << endl;
 
-	//Vector<float> vec1007(4, 1.0f, 100.0f);
-	//std::cout << vec1007 << endl;
+	//Vector<float> vecran2(4, 1.0f, 100.0f);
+	//std::cout << vecran2 << endl;
 
-	//Vector<double> vec10007(7, 1.0, 100.0);
-	//std::cout << vec10007 << endl;
+	//Vector<double> vecran3(7, 1.0, 100.0);
+	//std::cout << vecran3 << endl;
 
 	//double a1[] = { 3.0, 4.0, 0.7 };
 	//Vector<double> d1(3, a1);
@@ -195,7 +195,19 @@ int main()
 	std::cout << (vector22 != vector2) << endl;
 	std::cout << (vector2 != vector2) << endl;
 	
+	complex<float> listnorm1[] = { complex<float>(1.0f,0.0f), complex<float>(0.0f,1.0f), complex<float>(0.0f,0.0f) };
+	Vector<complex<float>> vectornorm1(3, listnorm1);
 
+	complex<double> listnorm2[] = { complex<double>(1.0,2.0), complex<double>(1.0,.0), complex<double>(1.0,3.0) };
+	Vector<complex<double>> vectornorm2(3, listnorm2);
+
+	Vector<complex<float>> norm1 = find_norm(vectornorm1);
+	Vector<complex<double>> norm2 = find_norm(vectornorm2);
+	
+	std::cout << "Vector: " << vectornorm1 << endl;
+	std::cout << norm1 << endl;
+	std::cout << "Vector: " << vectornorm2 << endl;
+	std::cout << norm2 << endl;
 	
 	return 0;
 }

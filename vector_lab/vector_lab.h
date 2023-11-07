@@ -208,15 +208,14 @@ template<typename T>
 		}
 		Vector<T> temp(other);
 		Vector<double> norm(other.get_size());
-		norm.get_element(0) = double(((-1) * temp.get_element(1)) / temp.get_element(0));
+		norm.get_element(0) = double((-1) * temp.get_element(1)) / double(temp.get_element(0));
 		norm.get_element(1) = 1.0;
 		for (int i = 2; i < norm.get_size(); ++i) {
 			norm.get_element(i) = 0.0;
 		}
 
-		for (int i = 0; i < norm.get_size(); ++i) {
-			norm.get_element(i) = norm.get_element(i) / norm.abs();
-		}
+		norm = norm / norm.abs();
+	
 		return norm;
 	}
 
@@ -416,22 +415,24 @@ template<typename T>
 	}
 
 	template<typename T>
-	Vector<complex<double>> find_norm(const Vector<complex<T>> other) {
+	Vector<complex<T>> find_norm(const Vector<complex<T>> other) {
 		if (other.get_size() < 2) {
-			Vector<complex<double>> temp(1);
+			Vector<complex<T>> temp(1);
 			return temp;
 		}
-		Vector<T> temp(other);
-		Vector<double> norm(other.get_size());
-		norm.get_element(0) = complex<double>((-1) * temp.get_element(1));
-		norm.get_element(1) = 1.0;
+		Vector<complex<T>> temp(other);
+		Vector<complex<T>> norm(other.get_size());
+		complex<T> c1 = conj(temp.get_element(1));
+		complex<T> c2 = conj(temp.get_element(0));
+		complex<T> c3 = T(1) / c2;
+		
+		norm.get_element(0) = (T(-1) * c1 ) * c3;
+		norm.get_element(1) = complex<T>(1.0, 0.0);
 		for (int i = 2; i < norm.get_size(); ++i) {
-			norm.get_element(i) = 0.0;
+			norm.get_element(i) = complex<T>(0.0, 0.0);
 		}
-
-		for (int i = 0; i < norm.get_size(); ++i) {
-			norm.get_element(i) = norm.get_element(i) / norm.abs();
-		}
+		complex<T> len(norm.abs(), 0);
+		norm = norm / len;
 		return norm;
 	}
 
